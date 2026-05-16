@@ -28,4 +28,9 @@ export const config = {
     rpcUrl: process.env.FILECOIN_RPC_URL ?? "https://api.node.glif.io/rpc/v1",
     authToken: process.env.FILECOIN_AUTH_TOKEN ?? "",
   },
+  etcd: {
+    // Comma-separated list of etcd endpoints (all 3 RAFT peers for fault tolerance)
+    hosts: (process.env.ETCD_HOSTS ?? "localhost:2379,localhost:2381,localhost:2383").split(","),
+    dialTimeout: parseInt(process.env.ETCD_DIAL_TIMEOUT_MS ?? "5000"),
+  },
 };
