@@ -63,17 +63,20 @@ export async function runRedisDemo(): Promise<void> {
     // --- Pub/Sub demo (fire-and-forget subscriber) ---
     const sub = redis.duplicate();
     await sub.connect();
-    sub.subscribe(`${KEY_PREFIX}channel`, (err) => {
-      if (err) console.error(`[${label}] Subscribe error:`, err.message);
-    });
-    sub.on("message", (_channel, message) => {
-      console.log(`[${label}] PubSub received:`, message);
-      sub.quit();
-    });
+    try {
+      await sub.subscribe(`${KEY_PREFIX}channel`, (err) => {
+        if (err) console.error(`[${label}] Subscribe error:`, err.message);
+      });
+      sub.on("message", (_channel, message) => {
+        console.log(`[${label}] PubSub received:`, message);
+      });
 
-    await redis.publish(`${KEY_PREFIX}channel`, JSON.stringify({ event: "demo", ts: Date.now() }));
-    // Give the subscriber time to receive before we close.
-    await new Promise((r) => setTimeout(r, 200));
+      await redis.publish(`${KEY_PREFIX}channel`, JSON.stringify({ event: "demo", ts: Date.now() }));
+      // Give the subscriber time to receive before we close.
+      await new Promise((r) => setTimeout(r, 200));
+    } finally {
+      await sub.quit();
+    }
 
     // TTL check
     const ttl = await redis.ttl(`${KEY_PREFIX}greeting`);
