@@ -1,0 +1,33 @@
+{
+  "name": "databases-integration",
+  "version": "1.0.0",
+  "description": "Sample project integrating PostgreSQL, MySQL, MongoDB, Filecoin, and Redis",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "demo:postgresql": "ts-node src/databases/postgresql/examples.ts",
+    "demo:mysql": "ts-node src/databases/mysql/examples.ts",
+    "demo:mongodb": "ts-node src/databases/mongodb/examples.ts",
+    "demo:redis": "ts-node src/databases/redis/examples.ts",
+    "demo:filecoin": "ts-node src/databases/filecoin/examples.ts",
+    "demo:all": "ts-node src/index.ts",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "ioredis": "^5.4.1",
+    "mongoose": "^8.5.1",
+    "mysql2": "^3.10.2",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/pg": "^8.11.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}
